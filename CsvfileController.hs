@@ -1,17 +1,17 @@
 module CsvfileController
-( getTodayCSV,
-getYesterdayCSV
+( getYesterdayCsvFilename,
+getTodayCsvFilename
 ) where  
 
 import Data.Time
 import Data.Time.Format
 import System.IO.Unsafe
 
-getYesterdayCSV :: String
-getYesterdayCSV = unsafeDupablePerformIO $ generateCsvFilename (-1)
+getYesterdayCsvFilename :: String
+getYesterdayCsvFilename = unsafeDupablePerformIO $ generateCsvFilename (-1)
 
-getTodayCSV :: String
-getTodayCSV = unsafeDupablePerformIO $ generateCsvFilename (0)
+getTodayCsvFilename :: String
+getTodayCsvFilename = unsafeDupablePerformIO $ generateCsvFilename (0)
 
 generateCsvFilename:: Integer -> IO String
 generateCsvFilename y = do

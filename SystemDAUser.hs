@@ -5,10 +5,10 @@ import qualified CsvfileController
 
 main = do
     -- Remove previous day user    
-    lDUsers <- readUserCSV $ CsvfileController.getYesterdayCSV
+    lDUsers <- readUserCSV $ CsvfileController.getYesterdayCsvFilename
     mapM_ deleteWindowUser lDUsers
     -- Add current day user
-    lAUsers <- readUserCSV $ CsvfileController.getTodayCSV
+    lAUsers <- readUserCSV $ CsvfileController.getTodayCsvFilename
     mapM_ addWindowUser lAUsers    
     print "Fin"
 
