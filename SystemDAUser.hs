@@ -1,24 +1,16 @@
 import System.Process
 import System.Exit
 import Data.List.Split
-import Data.Time
-import Data.Time.Format
-import Text.Printf
+import qualified CsvfileController
 
 main = do
-    c <- getCurrentTime
     -- Remove previous day user    
-    lDUsers <- readUserCSV $ generateCsvFilename $ toGregorian $ addDays (-1) $utctDay c
+    lDUsers <- readUserCSV $ CsvfileController.getYesterdayCSV
     mapM_ deleteWindowUser lDUsers
     -- Add current day user
-    lAUsers <- readUserCSV $  generateCsvFilename $ toGregorian $ utctDay c
+    lAUsers <- readUserCSV $ CsvfileController.getTodayCSV
     mapM_ addWindowUser lAUsers    
     print "Fin"
-    where generateCsvFilename (y,m,d) =  concat [show y, pad2zero m, pad2zero d, ".csv"]
-          pad2zero x = if x < 10 then
-                         reverse.show $ x * 10
-                       else
-                         show x
 
 -- CSV Reading
 readUserCSV szFile = (\x -> return $ map (\y -> (y!!0,y!!1)) x)
