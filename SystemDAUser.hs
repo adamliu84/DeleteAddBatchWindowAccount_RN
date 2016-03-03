@@ -1,21 +1,16 @@
 import System.Process
 import System.Exit
-import Data.List.Split
 import qualified CsvfileController
 
 main = do
     -- Remove previous day user    
-    lDUsers <- readUserCSV $ CsvfileController.getYesterdayCsvFilename
+    lDUsers <- CsvfileController.parseUserPwCsv $ CsvfileController.getYesterdayCsvFilename
     mapM_ deleteWindowUser lDUsers
     -- Add current day user
-    lAUsers <- readUserCSV $ CsvfileController.getTodayCsvFilename
+    lAUsers <- CsvfileController.parseUserPwCsv $ CsvfileController.getTodayCsvFilename
     mapM_ addWindowUser lAUsers    
     print "Fin"
 
--- CSV Reading
-readUserCSV szFile = (\x -> return $ map (\y -> (y!!0,y!!1)) x)
-                 =<< (\x-> return $ map (splitOn ";") x)
-                 =<< return.tail.lines =<< readFile szFile
     
 -- Window user operation
 addWindowUser (username,password) = do    

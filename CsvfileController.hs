@@ -1,11 +1,13 @@
 module CsvfileController
 ( getYesterdayCsvFilename,
-getTodayCsvFilename
+getTodayCsvFilename,
+parseUserPwCsv
 ) where  
 
 import Data.Time
 import Data.Time.Format
 import System.IO.Unsafe
+import Data.List.Split
 
 getYesterdayCsvFilename :: String
 getYesterdayCsvFilename = unsafeDupablePerformIO $ generateCsvFilename (-1)
@@ -21,3 +23,7 @@ generateCsvFilename y = do
                         reverse.show $ x * 10
                        else
                         show x
+
+parseUserPwCsv szFile = (\x -> return $ map (\y -> (y!!0,y!!1)) x)
+                 =<< (\x-> return $ map (splitOn ";") x)
+                 =<< return.tail.lines =<< readFile szFile
