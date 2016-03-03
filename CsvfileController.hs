@@ -24,6 +24,7 @@ generateCsvFilename y = do
                        else
                         show x
 
+parseUserPwCsv :: String -> IO [(String,String)]
 parseUserPwCsv szFile = (\x -> return $ map (\y -> (y!!0,y!!1)) x)
                  =<< (\x-> return $ map (splitOn ";") x)
                  =<< return.tail.lines =<< readFile szFile
