@@ -1,6 +1,7 @@
 import System.Process
 import System.Exit
 import qualified CsvfileController
+import qualified EncryptController (decryptPassword)
 
 main = do
     -- Remove previous day user    
@@ -14,7 +15,8 @@ main = do
     
 -- Window user operation
 addWindowUser (username,password) = do    
-    executeWindowCMD $ "net user \""++username++"\" \""++password++"\" /ADD"
+    executeWindowCMD $ "net user \""++username++"\" \""++ dePW password++"\" /ADD"
+    where dePW = EncryptController.decryptPassword
 deleteWindowUser (username,password) = do
     executeWindowCMD $ "net user \""++username++"\" /DELETE"
 executeWindowCMD szCmd = do

@@ -15,9 +15,7 @@ import qualified Data.List as DL
 Right key = decode.C8.pack $ (DL.concat $ DL.replicate 30 "ABCD")
 encrypt = B.pack.B.zipWith xor key
 encrypt' = C8.unpack.encrypt.C8.pack
-decrypt = encrypt
-decrypt' = decrypt.C8.pack
 encryptPassword = encrypt'
-decryptPassword = decrypt'
+decryptPassword = encrypt'
 
 
