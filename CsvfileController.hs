@@ -8,6 +8,7 @@ import Data.Time
 import Data.Time.Format
 import System.IO.Unsafe
 import Data.List.Split
+import Data.String.Utils (replace)
 
 getYesterdayCsvFilename :: String
 getYesterdayCsvFilename = unsafeDupablePerformIO $ generateCsvFilename (-1)
@@ -25,6 +26,7 @@ generateCsvFilename y = do
                         show x
 
 parseUserPwCsv :: String -> IO [(String,String)]
-parseUserPwCsv szFile = (\x -> return $ map (\y -> (y!!0,y!!1)) x)
+parseUserPwCsv szFile = (\x -> return $ map (\y -> (y!!0, removeWindowNewLine $ y!!1)) x)
                  =<< (\x-> return $ map (splitOn ";") x)
                  =<< return.tail.lines =<< readFile szFile
+		 where removeWindowNewLine x = replace "\r" "" x
